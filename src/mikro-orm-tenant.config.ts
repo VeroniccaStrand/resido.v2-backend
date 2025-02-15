@@ -1,11 +1,12 @@
 import { defineConfig, PostgreSqlDriver } from '@mikro-orm/postgresql';
 
 import { Migrator } from '@mikro-orm/migrations';
-import { Manager } from './modules/entities/manager.entity';
-import { Admin } from './modules/entities/admin.entity';
-import { User } from './modules/entities/user.entity';
-import { UnitTenant } from './modules/entities/unit-tenant.entity';
+
 import configuration from './database/configuration';
+import { User } from './modules/users/entities/user.entity';
+import { Manager } from './modules/managers/entities/manager.entity';
+import { Admin } from './modules/admins/entities/admin.entity';
+import { UnitTenant } from './modules/unit-tenants/entities/unit-tenant.entity';
 
 const dbConfig = configuration().database;
 export default defineConfig({

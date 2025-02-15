@@ -5,8 +5,13 @@ import { ConfigModule } from '@nestjs/config';
 
 import config from './mikro-orm-public.config';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { TenantController } from './modules/tenant/tenant.controller';
-import { TenantService } from './modules/tenant/tenant.service';
+
+import { UsersModule } from './modules/users/users.module';
+import { TenantsModule } from './modules/tenants/tenants.module';
+import { ManagersModule } from './modules/managers/managers.module';
+import { UnitTenantsModule } from './modules/unit-tenants/unit-tenants.module';
+import { AdminsModule } from './modules/admins/admins.module';
+import { TenancyModule } from './modules/tenancy/tenancy.module';
 
 import configuration from './database/configuration';
 
@@ -14,8 +19,14 @@ import configuration from './database/configuration';
   imports: [
     ConfigModule.forRoot({ isGlobal: true, load: [configuration] }),
     MikroOrmModule.forRoot(config),
+    UsersModule,
+    TenantsModule,
+    ManagersModule,
+    UnitTenantsModule,
+    AdminsModule,
+    TenancyModule,
   ],
-  controllers: [AppController, TenantController],
-  providers: [AppService, TenantService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

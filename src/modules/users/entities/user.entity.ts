@@ -5,7 +5,7 @@ import {
   EntityRepositoryType,
   EntityRepository,
 } from '@mikro-orm/core';
-import { UserRole } from '../../enums/user-role.enum';
+import { UserRole } from '../../../enums/user-role.enum';
 
 @Entity({ schema: '*', abstract: true, repository: () => UserRepository })
 export abstract class User {

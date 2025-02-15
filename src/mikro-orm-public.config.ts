@@ -1,8 +1,8 @@
 import { defineConfig, PostgreSqlDriver } from '@mikro-orm/postgresql';
 import configuration from './database/configuration';
 
-import { Tenant } from './modules/entities/tenant.entity';
 import { Migrator } from '@mikro-orm/migrations';
+import { Tenant } from './modules/tenants/entities/tenant.entity';
 
 const dbConfig = configuration().database;
 
