@@ -1,6 +1,7 @@
 import { Injectable, Scope } from '@nestjs/common';
 import { EntityManager, MikroORM } from '@mikro-orm/core';
 import dbConfig from '../../mikro-orm-tenant.config';
+
 @Injectable({ scope: Scope.REQUEST })
 export class TenantConnectionFactory {
   private tenantConnections = new Map<string, MikroORM>();

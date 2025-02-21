@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
@@ -13,11 +13,15 @@ import { UnitTenantsModule } from './modules/unit-tenants/unit-tenants.module';
 import { AdminsModule } from './modules/admins/admins.module';
 import { TenancyModule } from './modules/tenancy/tenancy.module';
 
-import configuration from './database/configuration';
+import configuration from './config/configuration';
+import { LoggerModule } from './logger/logger.module';
+import { RequestLoggerMiddleware } from './logger/request-logger.middleware';
+import { ValidUsersModule } from './modules/valid-users/valid-users.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, load: [configuration] }),
+    LoggerModule,
     MikroOrmModule.forRoot(config),
     UsersModule,
     TenantsModule,
@@ -25,8 +29,14 @@ import configuration from './database/configuration';
     UnitTenantsModule,
     AdminsModule,
     TenancyModule,
+    ValidUsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
+  exports: [],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(RequestLoggerMiddleware).forRoutes('*');
+  }
+}

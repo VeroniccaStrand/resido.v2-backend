@@ -1,5 +1,5 @@
 import { defineConfig, PostgreSqlDriver } from '@mikro-orm/postgresql';
-import configuration from './database/configuration';
+import configuration from './config/configuration';
 
 import { Migrator } from '@mikro-orm/migrations';
 import { Tenant } from './modules/tenants/entities/tenant.entity';
@@ -16,6 +16,7 @@ export default defineConfig({
   debug: true,
   allowGlobalContext: true,
   schema: 'public',
+
   migrations: {
     path: './migrations/public',
     glob: '!(*.d).{js,ts}',
