@@ -3,6 +3,7 @@ import configuration from './config/configuration';
 
 import { Migrator } from '@mikro-orm/migrations';
 import { Tenant } from './modules/tenants/entities/tenant.entity';
+import { SuperAdmin } from './modules/super-admin/entities/super-admin.entity';
 
 const dbConfig = configuration().database;
 
@@ -20,7 +21,9 @@ export default defineConfig({
   migrations: {
     path: './migrations/public',
     glob: '!(*.d).{js,ts}',
+    safe: true,
+    transactional: true,
   },
-  entities: [Tenant],
+  entities: [Tenant, SuperAdmin],
   extensions: [Migrator],
 });

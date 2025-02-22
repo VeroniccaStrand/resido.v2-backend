@@ -1,4 +1,4 @@
-import { Entity, PrimaryKey } from '@mikro-orm/core';
+import { Entity } from '@mikro-orm/core';
 import { User } from '../../users/entities/user.entity';
 import { UserRole } from '../../../enums/user-role.enum';
 
@@ -6,9 +6,6 @@ import { UserRole } from '../../../enums/user-role.enum';
 export class UnitTenant extends User {
   constructor() {
     super();
-    this.role = UserRole.UNIT_TENANT;
+    this.roles = [UserRole.UNIT_TENANT];
   }
-
-  @PrimaryKey()
-  _id!: number;
 }

@@ -1,35 +1,32 @@
-import { Entity, Enum, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, PrimaryKey, Property, Unique } from '@mikro-orm/core';
 import { UserRole } from '../../../enums/user-role.enum';
 import { Permission } from '../../../enums/user-permission.enum';
 
-@Entity({
-  abstract: true,
-})
-export abstract class User {
+@Entity({ schema: 'public' })
+export class SuperAdmin {
   @PrimaryKey()
   id!: number;
 
   @Property()
   name!: string;
 
-  @Property()
+  @Property({ unique: true })
   email!: string;
 
   @Property()
   hash!: string;
-  S;
 
-  @Enum(() => UserRole)
+  @Property({ type: 'json', nullable: false })
   roles!: UserRole[];
+  constructor() {
+    this.roles = [UserRole.SUPER_ADMIN];
+  }
 
-  @Property({ type: 'json', default: null, nullable: true })
+  @Property({ type: 'json', nullable: true, default: null })
   permissions?: Permission[] | null;
 
   @Property({ default: true })
   isActive!: boolean;
-
-  @Property({ nullable: true })
-  lastLogin?: Date;
 
   @Property()
   createdAt = new Date();

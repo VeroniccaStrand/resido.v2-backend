@@ -17,6 +17,9 @@ import configuration from './config/configuration';
 import { LoggerModule } from './logger/logger.module';
 import { RequestLoggerMiddleware } from './logger/request-logger.middleware';
 import { ValidUsersModule } from './modules/valid-users/valid-users.module';
+import { APP_FILTER } from '@nestjs/core';
+import { GlobalExceptionFilter } from './errorHandling/GlobalExceptionFilter';
+import { SuperAdminModule } from './modules/super-admin/super-admin.module';
 
 @Module({
   imports: [
@@ -30,9 +33,16 @@ import { ValidUsersModule } from './modules/valid-users/valid-users.module';
     AdminsModule,
     TenancyModule,
     ValidUsersModule,
+    SuperAdminModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_FILTER,
+      useClass: GlobalExceptionFilter,
+    },
+  ],
   exports: [],
 })
 export class AppModule {

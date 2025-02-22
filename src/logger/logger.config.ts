@@ -1,8 +1,5 @@
 import { ConfigService } from '@nestjs/config';
-import {
-  utilities as nestWinstonModuleUtilities,
-  WinstonModuleOptions,
-} from 'nest-winston';
+import { WinstonModuleOptions } from 'nest-winston';
 import * as winston from 'winston';
 
 // 🔹 Funktion för att hantera felaktiga värden i loggar
@@ -12,7 +9,7 @@ const safeString = (value: unknown): string =>
 // 🟢 Säker hantering av `stack` (fix för TypeScript-felet)
 const formatStackTrace = (stack: unknown): string[] => {
   if (!stack) return []; // Om stack saknas, returnera tom array
-  const stackStr = String(stack); // Konvertera till string om det är ett objekt
+  const stackStr = String(safeString(stack)); // Konvertera till string om det är ett objekt
   return stackStr.includes('\n') ? stackStr.split('\n') : [stackStr]; // Dela upp i rader
 };
 
@@ -39,7 +36,7 @@ const prettyConsoleFormat = winston.format.combine(
     const stackInfo = stack
       ? `\n🔴 Stacktrace:\n${formatStackTrace(stack).join('\n')}`
       : ''; // 🔹 Stacktrace i röd färg
-    return `[Resido] ${timestamp} [${safeString(level).toUpperCase()}] [${safeString(context)}] ${safeString(message)} ${stackInfo}`;
+    return `[Resido] ${safeString(timestamp)} [${safeString(level).toUpperCase()}] [${safeString(context)}] ${safeString(message)} ${stackInfo}`;
   }),
 );
 

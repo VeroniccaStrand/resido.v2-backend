@@ -1,10 +1,4 @@
-import {
-  Controller,
-  Post,
-  Body,
-  HttpException,
-  HttpStatus,
-} from '@nestjs/common';
+import { Controller, Post, Body, HttpStatus, HttpCode } from '@nestjs/common';
 
 import { CreateTenantDto } from './dto/create-tenant.dto';
 
@@ -15,15 +9,14 @@ export class TenantsController {
   constructor(private readonly tenantsService: TenantsService) {}
 
   @Post()
+  @HttpCode(HttpStatus.CREATED)
   async createTenant(@Body() dto: CreateTenantDto) {
-    try {
-      const tenant = await this.tenantsService.create(dto);
-      return {
-        message: `Tenant "${dto.company}" created successfully`,
-        tenant,
-      };
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+    console.log('heeeej');
+    const tenant = await this.tenantsService.create(dto);
+    console.log(tenant);
+    return {
+      message: `Tenant ${dto.company} created successfully.`,
+      tenant,
+    };
   }
 }

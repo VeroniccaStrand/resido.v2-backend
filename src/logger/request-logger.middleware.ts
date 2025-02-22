@@ -13,14 +13,18 @@ export class RequestLoggerMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
     const tenantId = req.headers['x-tenant-id'] as string | undefined;
     const userId = req.headers['x-user-id'] as string | undefined;
-    const { method, url } = req;
+    const { method, ip, originalUrl } = req;
+
+    // ✅ Använd originalUrl istället för req.route.path
+    const requestPath = originalUrl || 'UnknownRoute';
+
     const startTime = Date.now();
 
     res.on('finish', () => {
       const duration = Date.now() - startTime;
       this.logger.log(
-        `[${method}]-[${tenantId}] - [${userId}] ${url} - ${res.statusCode} (${duration}ms)`,
-        'RequestLoggerMiddleware', // ✅ Kontext för loggen
+        `[${method}] [${requestPath}] [Tenant: ${tenantId}] [User: ${userId}] [IP: ${ip}] - Status: ${res.statusCode} (${duration}ms)`,
+        'RequestLoggerMiddleware',
       );
     });
 
