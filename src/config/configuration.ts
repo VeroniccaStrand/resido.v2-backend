@@ -10,8 +10,14 @@ export default () => ({
     host: process.env.DB_HOST || 'localhost',
     port: parseInt(process.env.DB_PORT || '5432', 10),
   },
-  logging: {
-    mode: process.env.LOGGING_MODE || 'global',
-    logRequest: process.env.LOG_REQUEST || 'true',
+  jwt: {
+    secret: process.env.JWT_SECRET || 'supersecretkey',
+    expiresIn: process.env.JWT_EXPIRES_IN || '1h',
+  },
+  security: {
+    saltRounds: parseInt(process.env.SALT_ROUNDS || '10', 10),
+    allowedOrigins: process.env.ALLOWED_ORIGINS
+      ? process.env.ALLOWED_ORIGINS.split(',')
+      : ['http://localhost:3000'],
   },
 });

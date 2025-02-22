@@ -20,6 +20,7 @@ import { ValidUsersModule } from './modules/valid-users/valid-users.module';
 import { APP_FILTER } from '@nestjs/core';
 import { GlobalExceptionFilter } from './errorHandling/GlobalExceptionFilter';
 import { SuperAdminModule } from './modules/super-admin/super-admin.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { SuperAdminModule } from './modules/super-admin/super-admin.module';
     TenancyModule,
     ValidUsersModule,
     SuperAdminModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [
